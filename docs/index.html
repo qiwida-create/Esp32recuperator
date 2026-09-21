@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Метеостанция ESP32</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>МЕТЕОСТАНЦИЯ</h1>
+
+  <div id="alert"></div>
+
+  <!-- DS18B20 -->
+  <div class="grid">
+    <div class="tile"><div class="tl">Вытяжка · дом</div><div class="tv" id="s0">--</div></div>
+    <div class="tile"><div class="tl">Вытяжка · улица</div><div class="tv" id="s1">--</div></div>
+    <div class="tile"><div class="tl">Приточка · улица</div><div class="tv" id="s2">--</div></div>
+    <div class="tile"><div class="tl">Приточка · дом</div><div class="tv" id="s3">--</div></div>
+  </div>
+
+  <!-- DHT -->
+  <div class="grid dht-grid">
+    <div class="tile dht">
+      <div class="tl">DHT11 · внутри дома</div>
+      <div class="tv" id="dInT">--</div>
+      <div class="dht-h">💧 <span id="dInH">--</span> %</div>
+    </div>
+    <div class="tile dht out">
+      <div class="tl">DHT22 · улица</div>
+      <div class="tv" id="dOutT">--</div>
+      <div class="dht-h">💧 <span id="dOutH">--</span> %</div>
+    </div>
+  </div>
+
+  <!-- Реле 1 -->
+  <div class="relay" id="r0">
+    <div class="rhead">
+      <span class="rnum">Реле 1</span>
+      <span><span class="rstate" id="r0st">--</span><span class="rbadge" id="r0md">--</span></span>
+    </div>
+    <div class="rinfo" id="r0inf">--</div>
+    <div class="btns" id="r0bt">
+      <a data-m="0" onclick="sendRelay(0,'AUTO')">Авто</a>
+      <a data-m="3" onclick="sendRelay(0,'WINDOW')">Окно</a>
+      <a data-m="1" onclick="sendRelay(0,'ON')">ВКЛ</a>
+      <a data-m="2" onclick="sendRelay(0,'OFF')">ВЫКЛ</a>
+    </div>
+  </div>
+
+  <!-- Реле 2 -->
+  <div class="relay" id="r1">
+    <div class="rhead">
+      <span class="rnum">Реле 2</span>
+      <span><span class="rstate" id="r1st">--</span><span class="rbadge" id="r1md">--</span></span>
+    </div>
+    <div class="rinfo" id="r1inf">--</div>
+    <div class="btns" id="r1bt">
+      <a data-m="0" onclick="sendRelay(1,'AUTO')">Авто</a>
+      <a data-m="3" onclick="sendRelay(1,'WINDOW')">Окно</a>
+      <a data-m="1" onclick="sendRelay(1,'ON')">ВКЛ</a>
+      <a data-m="2" onclick="sendRelay(1,'OFF')">ВЫКЛ</a>
+    </div>
+  </div>
+
+  <!-- Уставка -->
+  <div class="outbox">
+    <div class="outrow"><span class="k">Уставка по улице</span><span class="v" id="outT">--</span></div>
+    <div class="outrow"><span class="k">Защита от холода</span><span class="v" id="outE">--</span></div>
+  </div>
+
+  <div id="mqtt-status" class="status">Подключение к MQTT...</div>
+
+  <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
